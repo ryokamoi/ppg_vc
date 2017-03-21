@@ -1,0 +1,38 @@
+import os
+import sys
+
+sys.path.append('sptk')
+
+import numpy as np
+
+from sptktools import w2r
+from extract import ext_mcep, ext_mfcc, ext_pitch, ext_f0
+from converter import mcep2vec, pitch2vec, vec2mcep, vec2pitch, synthesize
+
+if __name__ == '__main__':
+    wavlist = ['data/a01.wav']
+    
+    for wname in wavlist:
+        root, ext = os.path.splitext(wname)
+        
+        rname = root + '.raw'
+        mcname = root + '.mcep'
+        f0name = root + '.fzero'
+        mfname = root + '.mfc'
+        pname = root + '.pitch'
+        
+        mcsave = root + 'mc' + '.npy'
+        mfsave = root + 'mf' + '.npy'
+        lf0save = root + 'lf0' + '.npy'
+        
+        mcep = mcep2vec(mcname)
+        pitch = pitch2vec(pname)
+        
+        s_mname = 'test.mcep'
+        s_pname = 'test.pitch'
+        s_rname = 'test.raw'
+        s_wname = 'test.wav'
+        
+        vec2mcep(mcep, s_mname)
+        vec2pitch(pitch, s_pname)
+        synthesize(s_pname, s_mname, s_rname, s_wname)

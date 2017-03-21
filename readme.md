@@ -2,6 +2,6 @@ An implementation of [Phonetic Posteriorgrams for Many-to-One Voice Conversion w
 
 # Checklists
 
-- [ ] Create a phoneme corpus with Julius
+- [x] Create a phoneme corpus with Julius
 - [ ] AI-ASR
 - [ ] PPG -> MCEP
