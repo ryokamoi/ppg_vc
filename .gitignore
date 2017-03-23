@@ -7,7 +7,7 @@ segmentation-kit/*
 !.gitkeep
 target/*
 !.gitkeep
-lstm/grainedmodel/*
+lstm/trainedmodel/*
 !.gitkeep
 blstm-cws/*
 !.gitkeep
