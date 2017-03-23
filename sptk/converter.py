@@ -26,7 +26,7 @@ def mfcc2vec(filename):
         m = struct.unpack("f", b)[0]
         mfcclist.append(m)
     f.close()
-    return np.reshape(np.array(mfcclist), (-1, 39))
+    return np.reshape(np.array(mfcclist), (-1, 40))
 
 def pitch2vec(filename):
     pitchlist = []

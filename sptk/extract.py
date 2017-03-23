@@ -6,7 +6,7 @@ def ext_mcep(rawfile, mcepfile):
 	execute(mcepcmd)
 
 def ext_mfcc(rawfile, mfccfile):
-	mfcccmd = 'x2x +sf < %s | frame -l 400 -p 80 | mfcc -l 400 -m 39 > %s' % (rawfile, mfccfile)
+	mfcccmd = 'x2x +sf < %s | frame -l 400 -p 80 | mfcc -l 400 -m 39 -E > %s' % (rawfile, mfccfile)
 	
 	execute(mfcccmd)
 
