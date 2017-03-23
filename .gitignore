@@ -2,4 +2,8 @@
 *.pyc
 *__pycache__
 data/*
+!.gitkeep
 segmentation-kit/*
+!.gitkeep
+target/*
+!.gitkeep

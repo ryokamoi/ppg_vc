@@ -1,5 +1,6 @@
 import os
 import sys
+import fnmatch
 
 sys.path.append('sptk')
 
@@ -9,13 +10,25 @@ from sptktools import w2r
 from extract import ext_mcep, ext_mfcc, ext_pitch, ext_f0
 from converter import mcep2vec, mfcc2vec, pitch2vec
 
+wavpath = 'segmentation-kit/wav/'
+datapath = 'data/'
+savepath = 'result/'
+
 EXP = 1e+6
 
 if __name__ == '__main__':
-    wavlist = ['data/a01.wav']
+    """
+    wavlist = []
+    for file in os.listdir(wavpath):
+        if fnmatch.fnmatch(file, '*.wav'):
+            wavlist.append(file)
+    """
+    wavlist = ['a01.wav'] # debug
     
     for wname in wavlist:
         root, ext = os.path.splitext(wname)
+        wname = wavpath + wname
+        root = datapath + root
         
         rname = root + '.raw'
         mcname = root + '.mcep'
