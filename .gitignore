@@ -2,12 +2,10 @@
 *.pyc
 *__pycache__
 data/*
-!.gitkeep
 segmentation-kit/*
-!.gitkeep
 target/*
-!.gitkeep
 lstm/trainedmodel/*
-!.gitkeep
 blstm-cws/*
+pasd/*
+result/*
 !.gitkeep

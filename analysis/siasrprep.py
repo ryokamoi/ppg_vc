@@ -8,10 +8,10 @@ import numpy as np
 
 from sptktools import w2r
 from extract import ext_mcep, ext_mfcc, ext_pitch, ext_f0
-from converter import mcep2vec, mfcc2vec, pitch2vec
+from converter import mfcc2vec, pitch2vec
 
-wavpath = 'target/'
-datapath = 'target/'
+wavpath = 'segmentation-kit/wav/'
+datapath = 'data/'
 
 EXP = 1e+6
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         if fnmatch.fnmatch(file, '*.wav'):
             wavlist.append(file)
     """
-    wavlist = ['target001.wav'] # debug
+    wavlist = ['chi0001.wav'] # debug
     
     for wname in wavlist:
         root, ext = os.path.splitext(wname)
@@ -30,16 +30,19 @@ if __name__ == '__main__':
         root = datapath + root
         
         rname = root + '.raw'
-        mcname = root + '.mcep'
         f0name = root + '.fzero'
+        mfname = root + '.mfc'
+        pname = root + '.pitch'
         
         w2r(wname, rname)
         
-        ext_mcep(rname, mcname)
         ext_f0(rname, f0name)
+        ext_pitch(rname, pname)
+        ext_mfcc(rname, mfname)
         
-        mcep = mcep2vec(mcname)
+        pitch = pitch2vec(pname)
         f0 = pitch2vec(f0name)
+        mfcc = mfcc2vec(mfname)
         
         log = np.zeros(np.shape(f0))
         for i in range(np.shape(log)[0]):
@@ -48,9 +51,9 @@ if __name__ == '__main__':
             else:
                 log[i] = - EXP
         
-        mcsave = root + 'mc' + '.npy'
+        mfsave = root + 'mf' + '.npy'
         lf0save = root + 'lf0' + '.npy'
         
-        np.save(mcsave, mcep)
+        np.save(mfsave, mfcc)
         np.save(lf0save, log)
         

@@ -7,9 +7,9 @@ import numpy as np
 datapath = 'data/'
 """
 mfcclist = []
-for file in os.listdir(datapath):
-    if fnmatch.fnmatch(file, '*mf.npy'):
-        mfcclist.append(file)
+for filename in os.listdir(datapath):
+    if fnmatch.fnmatch(filename, '*mf.npy'):
+        mfcclist.append(filename)
 """
 mfcclist = ['a01mf.npy'] # debug
 
@@ -33,20 +33,24 @@ if __name__ == '__main__':
         
         mfcc = np.load(datapath + mfccname)
         ppg = np.load(datapath + ppgname)
-        if inflen > 0:
+        if np.shape(mfcc)[0] < inflen:
+            trainmfcc[tmpfrm, -np.shape(mfcc)[0]:] = mfcc
+            trainppg[tmpfrm, -np.shape(mfcc)[0]:] = ppg
+            continue
+        elif inflen > 0:
             trainmfcc[tmpfrm, -inflen:] = mfcc[:inflen]
             trainppg[tmpfrm, -inflen:] = ppg[:inflen]
             mfcc = mfcc[inflen:]
             ppg = ppg[inflen:]
         
-        tmplen = np.shape(mfcc)[0] // 200 + 1
+        tmplen = np.shape(mfcc)[0] // FRAME_SIZE + 1
         tmpmfcc = np.ones((tmplen, FRAME_SIZE, MFCC_SIZE)) * INF
         tmpppg = np.ones((tmplen, FRAME_SIZE, PHONEME_SIZE)) * INF
         for i in range(tmplen-1):
-            tmpmfcc[i] = mfcc[:200]
-            tmpppg[i] = ppg[:200]
-            mfcc = mfcc[200:]
-            ppg = ppg[200:]
+            tmpmfcc[i] = mfcc[:FRAME_SIZE]
+            tmpppg[i] = ppg[:FRAME_SIZE]
+            mfcc = mfcc[FRAME_SIZE:]
+            ppg = ppg[FRAME_SIZE:]
         tmpmfcc[-1, :np.shape(mfcc)[0]] = mfcc
         tmpppg[-1, :np.shape(ppg)[0]] = ppg
         
