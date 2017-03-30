@@ -7,13 +7,12 @@ import numpy as np
 wavpath = 'segmentation-kit/wav/'
 labpath = 'segmentation-kit/wav/'
 datapath = 'data/'
-"""
+
 lablist = []
 for file in os.listdir(wavpath):
     if fnmatch.fnmatch(file, '*.lab'):
         lablist.append(file)
-"""
-lablist = ['a01.lab'] # debug
+#lablist = ['a01.lab'] # debug
 
 PHONEME = 36
 

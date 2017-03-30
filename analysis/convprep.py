@@ -7,7 +7,7 @@ sys.path.append('sptk')
 import numpy as np
 
 from sptktools import w2r
-from extract import ext_mcep, ext_mfcc, ext_pitch, ext_f0
+from extract import ext_mcep, ext_mfcc, ext_pitch, ext_f0, ext_logf0
 from converter import mcep2vec, mfcc2vec, pitch2vec
 
 wavpath = 'target/'

@@ -11,17 +11,17 @@ def ext_mfcc(rawfile, mfccfile):
 	execute(mfcccmd)
 
 def ext_pitch(rawfile, pitchfile):
-	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 > %s' \
+	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 -H 600 > %s' \
 	                                       % (rawfile, pitchfile)
 	execute(f0cmd)
 
 def ext_f0(rawfile, pitchfile):
-	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 -o 1 > %s' \
+	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 -H 600 -o 1 > %s' \
 	                                       % (rawfile, pitchfile)
 	execute(f0cmd)
 	
 def ext_logf0(rawfile, pitchfile):
-	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 -o 2  > %s' \
+	f0cmd = 'x2x +sf %s | pitch -a 1 -p 80 -s 16.0 -H 600 -o 2 > %s' \
 	                                       % (rawfile, pitchfile)
 	execute(f0cmd)
 

@@ -66,7 +66,7 @@ def vec2pitch(vec, filename):
     f.close()
 
 def synthesize(pfile, mfile, rawfile, wavfile):
-	c1 = 'excite -p 80 %s | mlsadf -m 39 -a 0.35 -p 80 %s | x2x +fs > %s' \
+	c1 = 'excite -p 80 %s | mlsadf -m 39 -a 0.35 -p 80 %s | x2x +fs -o > %s' \
 	        % (pfile, mfile, rawfile)
 	c2 = 'sox -e signed-integer -c 1 -b 16 -r 16000 %s %s' % (rawfile, wavfile)
 	

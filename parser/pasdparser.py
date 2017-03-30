@@ -1,6 +1,7 @@
 import os
 import fnmatch
 import re
+import wave
 from enum import Enum
 
 datapath = 'pasd/'
@@ -33,9 +34,11 @@ def fild_all_files(directory):
 splist1 = ['\n', '\r']
 sublist = [r'<.*?>', r'＜.*?＞', r'{.*?}', r'#.*?#', r'\+.*?\+', r'tut[0-9]+']
 splist2 = ['、', '。', '-', '．', '{comma}', '*pause*', '*silence*', '{period}', \
-             '{quest}', '[', ']', '(', ')', '（', '）', '［', '］', '｛', '｝', '/cg/', '/h#/', '/lg/', \
-             '/ls/', '/', '+']
+             '{quest}','pencil', '#', 'h', '[', ']', '(', ')', '（', '）', '［', '］', '｛', '｝', '/cg/', '/lg/', \
+             '/ls/', '/', '+', '？']
 def kan2txt(filename, univ):
+    global txtlist
+    
     root, ext = os.path.splitext(filename)
     root = root.split('/')[-1]
     savename = [savepath+root+wavspeaker[univ.value][i]+'.txt' for i in range(2)]
@@ -54,16 +57,30 @@ def kan2txt(filename, univ):
             for seg in sublist:
                 line = re.sub(seg, 'sp', line)
             for seg in splist2:
-                line = line.replace(seg, ' sp ')
-            line = re.sub(r'sp(sp)*', ' sp ', line)
+                line = line.replace(seg, 'sp')
             savetxt[txtspeaker[univ.value].index(speaker)].append(line)
     f.close()
     
     for i in range(2):
         if wavspeaker[univ.value][i]:
+            txtlist.append(savename[i])
             f = open(savename[i], 'w')
-            f.writelines(savetxt[i])
+            savetxt[i] = re.sub(r'sp(sp)*', ' sp ', ''.join(savetxt[i]))
+            f.write(savetxt[i])
             f.close()
+
+def wavconnecter(inputs, output):
+    fps = [wave.open(f, 'r') for f in inputs]
+    fpw = wave.open(output, 'w')
+    
+    fpw.setnchannels(fps[0].getnchannels())
+    fpw.setsampwidth(fps[0].getsampwidth())
+    fpw.setframerate(fps[0].getframerate())
+    
+    for fp in fps:
+        fpw.writeframes(fp.readframes(fp.getnframes()))
+        fp.close()
+    fpw.close()
 
 if __name__ == '__main__':
     kanfiles = [[] for i in list(Univ)]
@@ -77,10 +94,21 @@ if __name__ == '__main__':
                 univ = filename.split('/')[-3]
                 wavfiles[Univ[univ].value].append(filename)
     
-    # kanfiles[1:] = [[] for i in list(Univ)][1:] #debug
-    wavfiles[1:] = [[] for i in list(Univ)][1:] #debug
+    txtlist = []
     for univ in list(Univ):
         for kanname in kanfiles[univ.value]:
             kan2txt(kanname, univ)
-        for wavname in wavfiles[univ.value]:
-            pass
+    
+    wavlist = [txtname[:-3]+'wav' for txtname in txtlist]
+    for savewav in wavlist:
+        print(savewav)
+        inputlist = []
+        saveroot, saveext = os.path.splitext(savewav)
+        saveroot = saveroot.split('/')[-1]
+        for univ in list(Univ):
+            for wavname in wavfiles[univ.value]:
+                inputroot, inputext = os.path.splitext(wavname)
+                inputroot = inputroot.split('/')[-1]
+                if saveroot == inputroot[:len(saveroot)]:
+                    inputlist.append(wavname)
+        wavconnecter(inputlist, savewav)
