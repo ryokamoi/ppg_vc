@@ -4,10 +4,10 @@ An implementation of [Phonetic Posteriorgrams for Many-to-One Voice Conversion w
  
  # Conversion Sample
  
-  + original voice
+  * original voice
  
  [https://soundcloud.com/user-650905647/arayuru_source](https://soundcloud.com/user-650905647/arayuru_source)
   
-  + converted voice
+  * converted voice
  
  [https://soundcloud.com/user-650905647/output0330](https://soundcloud.com/user-650905647/output0330)
